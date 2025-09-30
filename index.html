@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industrijska Analitika</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0d1117;
+            color: #c9d1d9;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 100px 20px 60px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #f0f6fc;
+        }
+
+        .hero .subtitle {
+            font-size: 1.3em;
+            color: #8b949e;
+            margin-bottom: 40px;
+        }
+
+        /* Solutions */
+        .solutions {
+            padding: 60px 20px;
+        }
+
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 40px;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: #58a6ff;
+            transform: translateY(-3px);
+        }
+
+        .card-icon {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            font-size: 1.8em;
+            color: #f0f6fc;
+            margin-bottom: 20px;
+        }
+
+        .card p {
+            color: #8b949e;
+            margin-bottom: 25px;
+            font-size: 1.05em;
+        }
+
+        .features {
+            list-style: none;
+        }
+
+        .features li {
+            color: #c9d1d9;
+            margin: 12px 0;
+            padding-left: 25px;
+            position: relative;
+            font-size: 1.05em;
+        }
+
+        .features li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #58a6ff;
+            font-size: 1.5em;
+            line-height: 1;
+        }
+
+        .card-button {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 24px;
+            background: #238636;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .card-button:hover {
+            background: #2ea043;
+            transform: translateY(-2px);
+        }
+
+
+
+        /* Example Section */
+        .example {
+            padding: 80px 20px;
+            background: #161b22;
+        }
+
+        .example h2 {
+            font-size: 2.2em;
+            color: #f0f6fc;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .example-subtitle {
+            text-align: center;
+            font-size: 1.2em;
+            color: #8b949e;
+            margin-bottom: 50px;
+        }
+
+        .example-content {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .example-content h3 {
+            font-size: 1.5em;
+            color: #58a6ff;
+            margin-bottom: 20px;
+        }
+
+        .problem, .solution, .results {
+            margin: 30px 0;
+        }
+
+        .problem h4, .solution h4, .results h4 {
+            font-size: 1.2em;
+            color: #f0f6fc;
+            margin-bottom: 15px;
+        }
+
+        .problem ul, .solution ul, .results ul {
+            list-style: none;
+        }
+
+        .problem ul li, .solution ul li, .results ul li {
+            color: #c9d1d9;
+            margin: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .problem ul li::before {
+            content: "×";
+            position: absolute;
+            left: 0;
+            color: #f85149;
+            font-size: 1.3em;
+        }
+
+        .solution ul li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #58a6ff;
+            font-size: 1.2em;
+        }
+
+        .results ul li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #3fb950;
+            font-size: 1.2em;
+        }
+
+        /* Contact */
+        .contact {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 2em;
+            color: #f0f6fc;
+            margin-bottom: 15px;
+        }
+
+        .contact p {
+            color: #8b949e;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .contact-item a {
+            color: #58a6ff;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: color 0.3s;
+        }
+
+        .contact-item a:hover {
+            color: #79c0ff;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 14px 28px;
+            background: #238636;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.05em;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .cta-button:hover {
+            background: #2ea043;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            padding: 30px 20px;
+            text-align: center;
+            border-top: 1px solid #30363d;
+            color: #8b949e;
+            font-size: 0.95em;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2em;
+            }
+
+            .solutions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <h1>Industrijska Analitika</h1>
+            <p class="subtitle">Podatkovne rešitve za proizvodnjo, kovinarstvo in železarstvo</p>
+        </div>
+    </section>
+
+    <!-- Solutions -->
+    <section class="solutions">
+        <div class="container">
+            <div class="solutions-grid">
+                <!-- Real-Time Monitoring -->
+                <div class="card">
+                    <div class="card-icon">⚡</div>
+                    <h2>Real-Time Monitoring</h2>
+                    <p>Live spremljanje strojev in procesov. Takojšnja reakcija na probleme.</p>
+
+                    <ul class="features">
+                        <li>Real-time dashboardi (osvežitev vsako sekundo)</li>
+                        <li>SMS/Email/Slack alarmi ob kritičnih dogodkih</li>
+                        <li>Streaming podatkov iz strojev (CNC, PLC)</li>
+                        <li>Threshold monitoring (temperatura, vibracije, obremenitev)</li>
+                        <li>Mobile push notifikacije za vodstvo</li>
+                        <li>Zgodovinski pregled dogodkov in alarmov</li>
+                    </ul>
+
+                    <a href="/real-time-monitoring-demo" class="card-button">Ogled Primera →</a>
+                </div>
+
+                <!-- Industrial Analytics -->
+                <div class="card">
+                    <div class="card-icon">🏭</div>
+                    <h2>Industrijska Analitika</h2>
+                    <p>Poglobljena analiza proizvodnje. OEE, predictive maintenance, optimizacija.</p>
+
+                    <ul class="features">
+                        <li>Povezava na CNC/PLC stroje (MTConnect, OPC UA, Modbus)</li>
+                        <li>Napoved okvar z ML modeli (vibracije, temperatura)</li>
+                        <li>OEE tracking in optimizacija (availability, performance, quality)</li>
+                        <li>Analiza dobičkonosnosti po izdelku/seriji</li>
+                        <li>Optimizacija zalog materiala in orodij</li>
+                        <li>Production planning in scheduling</li>
+                    </ul>
+
+                    <a href="/industrijska-analitika-demo" class="card-button">Ogled Primera →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Example - Železarstvo -->
+    <section class="example">
+        <div class="container">
+            <h2>Primer: CNC Podjetje - Železarstvo</h2>
+            <p class="example-subtitle">6 CNC strojev, 15 zaposlenih, proizvodnja komponent za avtomobilsko industrijo</p>
+
+            <div class="example-content">
+                <div class="problem">
+                    <h4>Problem</h4>
+                    <ul>
+                        <li>Stroji se pokvarijo nepričakovano → 2-3 dni zastoja</li>
+                        <li>Ne vedo kateri izdelki so dobičkonosni</li>
+                        <li>Material zmanjka sredi proizvodnje</li>
+                        <li>Vodstvo nima pregleda kaj se dogaja v realnem času</li>
+                        <li>5+ ur/teden za ročno načrtovanje proizvodnje</li>
+                    </ul>
+                </div>
+
+                <div class="solution">
+                    <h4>Rešitev</h4>
+                    <ul>
+                        <li>Povezava vseh 6 strojev (MTConnect)</li>
+                        <li>2 starejša stroja → vibracijski senzorji + Raspberry Pi</li>
+                        <li>Real-time dashboard za vodstvo (Grafana)</li>
+                        <li>ML model za napoved okvar</li>
+                        <li>Analiza stroškov po izdelku (material, čas, orodja)</li>
+                        <li>Avtomatsko opozorilo za naročanje materiala</li>
+                    </ul>
+                </div>
+
+                <div class="results">
+                    <h4>Rezultati po 12 mesecih</h4>
+                    <ul>
+                        <li>OEE: 68% → 82% (+14 točk)</li>
+                        <li>Nenačrtovani zastoji: 12 dni/leto → 3 dni/leto</li>
+                        <li>Identificirani 3 nedobičkonosni izdelki → renegotiacija cen (+22k€/leto)</li>
+                        <li>Zaloge materiala: -35k€ (sproščen kapital)</li>
+                        <li>Čas za planiranje: 5h/teden → 1h/teden</li>
+                        <li><strong>Skupni učinek: 125k€/leto | Investicija: 7.5k€ + 500€/mes</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact">
+        <div class="container">
+            <h2>Kontakt</h2>
+            <p>Zanima vas kako bi to delovalo pri vas? Pošljite email.</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <a href="mailto:deniskerec1994@gmail.com">deniskerec1994@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <a href="https://linkedin.com/in/deniskerec" target="_blank">LinkedIn</a>
+                </div>
+            </div>
+            <a href="/projects" class="cta-button">Ogled Demo Projektov →</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Data Solutions</p>
+        </div>
+    </footer>
+</body>
+</html>
