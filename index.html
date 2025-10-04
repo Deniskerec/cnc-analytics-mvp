@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Industrijska Analitika</title>
+    <title>CNC Monitoring POC - Industrial IoT Platform</title>
     <style>
         * {
             margin: 0;
@@ -26,237 +26,396 @@
 
         /* Hero */
         .hero {
-            padding: 100px 20px 60px;
+            padding: 80px 20px 60px;
             text-align: center;
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid #58a6ff;
+            border-radius: 20px;
+            color: #58a6ff;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            font-weight: 600;
         }
 
         .hero h1 {
-            font-size: 3em;
+            font-size: 3.2em;
             font-weight: 700;
             margin-bottom: 20px;
-            color: #f0f6fc;
+            background: linear-gradient(135deg, #58a6ff 0%, #79c0ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .hero .subtitle {
-            font-size: 1.3em;
+            font-size: 1.4em;
             color: #8b949e;
             margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        /* Solutions */
-        .solutions {
-            padding: 60px 20px;
+        /* Lightbox Modal */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            overflow: auto;
         }
 
-        .solutions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 40px;
-            margin-top: 40px;
-        }
-
-        .card {
-            background: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 12px;
-            padding: 40px;
-            transition: all 0.3s;
-        }
-
-        .card:hover {
-            border-color: #58a6ff;
-            transform: translateY(-3px);
-        }
-
-        .card-icon {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-        }
-
-        .card h2 {
-            font-size: 1.8em;
-            color: #f0f6fc;
-            margin-bottom: 20px;
-        }
-
-        .card p {
-            color: #8b949e;
-            margin-bottom: 25px;
-            font-size: 1.05em;
-        }
-
-        .features {
-            list-style: none;
-        }
-
-        .features li {
-            color: #c9d1d9;
-            margin: 12px 0;
-            padding-left: 25px;
+        .lightbox-content {
             position: relative;
-            font-size: 1.05em;
+            margin: 50px auto;
+            max-width: 90%;
+            max-height: 90vh;
         }
 
-        .features li::before {
-            content: "•";
+        .lightbox-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .lightbox-close {
             position: absolute;
-            left: 0;
+            top: 20px;
+            right: 40px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10000;
+        }
+
+        .lightbox-close:hover {
             color: #58a6ff;
-            font-size: 1.5em;
-            line-height: 1;
         }
 
-        .card-button {
-            display: inline-block;
-            margin-top: 25px;
-            padding: 12px 24px;
-            background: #238636;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 600;
-            transition: all 0.3s;
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #fff;
+            font-size: 60px;
+            cursor: pointer;
+            padding: 20px;
+            user-select: none;
         }
 
-        .card-button:hover {
-            background: #2ea043;
-            transform: translateY(-2px);
+        .lightbox-nav:hover {
+            color: #58a6ff;
         }
 
-
-
-        /* Example Section */
-        .example {
-            padding: 80px 20px;
-            background: #161b22;
+        .lightbox-prev {
+            left: 20px;
         }
 
-        .example h2 {
-            font-size: 2.2em;
-            color: #f0f6fc;
-            margin-bottom: 15px;
+        .lightbox-next {
+            right: 20px;
+        }
+
+        .lightbox-caption {
             text-align: center;
-        }
-
-        .example-subtitle {
-            text-align: center;
-            font-size: 1.2em;
             color: #8b949e;
-            margin-bottom: 50px;
-        }
-
-        .example-content {
-            background: #0d1117;
-            border: 1px solid #30363d;
-            border-radius: 12px;
-            padding: 40px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .example-content h3 {
-            font-size: 1.5em;
-            color: #58a6ff;
-            margin-bottom: 20px;
-        }
-
-        .problem, .solution, .results {
-            margin: 30px 0;
-        }
-
-        .problem h4, .solution h4, .results h4 {
-            font-size: 1.2em;
-            color: #f0f6fc;
-            margin-bottom: 15px;
-        }
-
-        .problem ul, .solution ul, .results ul {
-            list-style: none;
-        }
-
-        .problem ul li, .solution ul li, .results ul li {
-            color: #c9d1d9;
-            margin: 10px 0;
-            padding-left: 25px;
-            position: relative;
-        }
-
-        .problem ul li::before {
-            content: "×";
-            position: absolute;
-            left: 0;
-            color: #f85149;
-            font-size: 1.3em;
-        }
-
-        .solution ul li::before {
-            content: "→";
-            position: absolute;
-            left: 0;
-            color: #58a6ff;
+            padding: 20px;
             font-size: 1.2em;
         }
 
-        .results ul li::before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #3fb950;
-            font-size: 1.2em;
-        }
-
-        /* Contact */
-        .contact {
-            padding: 60px 20px;
-            text-align: center;
-        }
-
-        .contact h2 {
-            font-size: 2em;
-            color: #f0f6fc;
-            margin-bottom: 15px;
-        }
-
-        .contact p {
-            color: #8b949e;
-            margin-bottom: 30px;
-            font-size: 1.1em;
-        }
-
-        .contact-info {
+        .hero-buttons {
             display: flex;
+            gap: 20px;
             justify-content: center;
-            gap: 30px;
             flex-wrap: wrap;
         }
 
-        .contact-item a {
-            color: #58a6ff;
-            text-decoration: none;
-            font-size: 1.1em;
-            transition: color 0.3s;
-        }
-
-        .contact-item a:hover {
-            color: #79c0ff;
-        }
-
-        .cta-button {
+        .btn-primary {
             display: inline-block;
-            padding: 14px 28px;
+            padding: 14px 32px;
             background: #238636;
             color: white;
             text-decoration: none;
             border-radius: 8px;
             font-weight: 600;
-            font-size: 1.05em;
+            font-size: 1.1em;
             transition: all 0.3s;
-            margin-top: 20px;
         }
 
-        .cta-button:hover {
+        .btn-primary:hover {
             background: #2ea043;
             transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(35, 134, 54, 0.3);
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            padding: 14px 32px;
+            background: transparent;
+            color: #58a6ff;
+            text-decoration: none;
+            border: 2px solid #58a6ff;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(88, 166, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Production Pipeline */
+        .pipeline {
+            padding: 80px 20px;
+            background: #161b22;
+        }
+
+        .section-title {
+            font-size: 2.5em;
+            color: #f0f6fc;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #8b949e;
+            font-size: 1.2em;
+            margin-bottom: 50px;
+        }
+
+        .pipeline-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .pipeline-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .pipeline-box {
+            background: #0d1117;
+            border: 2px solid #30363d;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            min-width: 180px;
+            flex: 1;
+            max-width: 220px;
+            transition: all 0.3s;
+        }
+
+        .pipeline-box:hover {
+            border-color: #58a6ff;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(88, 166, 255, 0.2);
+        }
+
+        .pipeline-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .pipeline-box h3 {
+            color: #f0f6fc;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+
+        .pipeline-box p {
+            color: #8b949e;
+            font-size: 0.85em;
+        }
+
+        .arrow-down {
+            text-align: center;
+            font-size: 2.5em;
+            color: #58a6ff;
+        }
+
+        .pipeline-note {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(88, 166, 255, 0.05);
+            border: 1px solid rgba(88, 166, 255, 0.2);
+            border-radius: 8px;
+        }
+
+        .pipeline-note h4 {
+            color: #58a6ff;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .pipeline-note p {
+            color: #8b949e;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            padding: 80px 20px;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tech-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: block;
+        }
+
+        .tech-card:hover {
+            border-color: #58a6ff;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(88, 166, 255, 0.2);
+        }
+
+        .tech-logo {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .tech-card h3 {
+            color: #f0f6fc;
+            margin-bottom: 0;
+            font-size: 0.95em;
+        }
+
+        /* Grafana Examples */
+        .grafana-examples {
+            padding: 80px 20px;
+            background: #161b22;
+        }
+
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .example-card {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .example-card:hover {
+            border-color: #58a6ff;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(88, 166, 255, 0.2);
+        }
+
+        .example-image {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, #1f2937 0%, #0d1117 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #58a6ff;
+            font-size: 1em;
+            border-bottom: 1px solid #30363d;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .example-image-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .example-info {
+            padding: 25px;
+        }
+
+        .example-info h3 {
+            color: #f0f6fc;
+            font-size: 1.4em;
+            margin-bottom: 10px;
+        }
+
+        .example-info p {
+            color: #8b949e;
+            font-size: 1em;
+            margin-bottom: 15px;
+        }
+
+        .example-link {
+            display: inline-block;
+            color: #58a6ff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .example-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Stats */
+        .stats {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: 700;
+            color: #58a6ff;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #8b949e;
+            font-size: 1.1em;
         }
 
         footer {
@@ -264,7 +423,15 @@
             text-align: center;
             border-top: 1px solid #30363d;
             color: #8b949e;
-            font-size: 0.95em;
+        }
+
+        footer a {
+            color: #58a6ff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
         }
 
         @media (max-width: 768px) {
@@ -272,134 +439,392 @@
                 font-size: 2.2em;
             }
 
-            .solutions-grid {
-                grid-template-columns: 1fr;
+            .pipeline-row {
+                flex-direction: column;
             }
 
-            .card {
-                padding: 30px;
+            .example-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <span class="lightbox-nav lightbox-prev" onclick="changeImage(-1)">&#10094;</span>
+        <span class="lightbox-nav lightbox-next" onclick="changeImage(1)">&#10095;</span>
+        <div class="lightbox-content">
+            <img id="lightbox-img" class="lightbox-image" src="" alt="">
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
+    </div>
+
     <!-- Hero -->
     <section class="hero">
         <div class="container">
-            <h1>Industrijska Analitika</h1>
-            <p class="subtitle">Podatkovne rešitve za proizvodnjo, kovinarstvo in železarstvo</p>
-        </div>
-    </section>
-
-    <!-- Solutions -->
-    <section class="solutions">
-        <div class="container">
-            <div class="solutions-grid">
-                <!-- Real-Time Monitoring -->
-                <div class="card">
-                    <div class="card-icon">⚡</div>
-                    <h2>Real-Time Monitoring</h2>
-                    <p>Live spremljanje strojev in procesov. Takojšnja reakcija na probleme.</p>
-
-                    <ul class="features">
-                        <li>Real-time dashboardi (osvežitev vsako sekundo)</li>
-                        <li>SMS/Email/Slack alarmi ob kritičnih dogodkih</li>
-                        <li>Streaming podatkov iz strojev (CNC, PLC)</li>
-                        <li>Threshold monitoring (temperatura, vibracije, obremenitev)</li>
-                        <li>Mobile push notifikacije za vodstvo</li>
-                        <li>Zgodovinski pregled dogodkov in alarmov</li>
-                    </ul>
-
-                    <a href="/real-time-monitoring-demo" class="card-button">Ogled Primera →</a>
-                </div>
-
-                <!-- Industrial Analytics -->
-                <div class="card">
-                    <div class="card-icon">🏭</div>
-                    <h2>Industrijska Analitika</h2>
-                    <p>Poglobljena analiza proizvodnje. OEE, predictive maintenance, optimizacija.</p>
-
-                    <ul class="features">
-                        <li>Povezava na CNC/PLC stroje (MTConnect, OPC UA, Modbus)</li>
-                        <li>Napoved okvar z ML modeli (vibracije, temperatura)</li>
-                        <li>OEE tracking in optimizacija (availability, performance, quality)</li>
-                        <li>Analiza dobičkonosnosti po izdelku/seriji</li>
-                        <li>Optimizacija zalog materiala in orodij</li>
-                        <li>Production planning in scheduling</li>
-                    </ul>
-
-                    <a href="/industrijska-analitika-demo" class="card-button">Ogled Primera →</a>
-                </div>
+            <div class="hero-badge">🏭 Production-Ready Architecture</div>
+            <h1>Industrial IoT Monitoring</h1>
+            <div class="hero-buttons" style="margin-top: 40px;">
+                <a href="https://github.com/Deniskerec/cnc-monitoring-poc" class="btn-primary" target="_blank">
+                    GitHub Repository →
+                </a>
+                <a href="javascript:void(0)" class="btn-secondary" onclick="openLightbox(0)">
+                    View Dashboard Examples
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Example - Železarstvo -->
-    <section class="example">
+    <!-- Production Pipeline -->
+    <section class="pipeline">
         <div class="container">
-            <h2>Primer: CNC Podjetje - Železarstvo</h2>
-            <p class="example-subtitle">6 CNC strojev, 15 zaposlenih, proizvodnja komponent za avtomobilsko industrijo</p>
+            <h2 class="section-title">Production Arhitektura</h2>
+            <p class="section-subtitle">Od podatkov na strojih do real-time analitike v 4 slojih</p>
 
-            <div class="example-content">
-                <div class="problem">
-                    <h4>Problem</h4>
-                    <ul>
-                        <li>Stroji se pokvarijo nepričakovano → 2-3 dni zastoja</li>
-                        <li>Ne vedo kateri izdelki so dobičkonosni</li>
-                        <li>Material zmanjka sredi proizvodnje</li>
-                        <li>Vodstvo nima pregleda kaj se dogaja v realnem času</li>
-                        <li>5+ ur/teden za ročno načrtovanje proizvodnje</li>
-                    </ul>
+            <div class="pipeline-flow">
+                <!-- Layer 1: Data Sources -->
+                <div class="pipeline-row">
+                    <div class="pipeline-box">
+                        <div class="pipeline-icon">🔧</div>
+                        <h3>HAAS CNC</h3>
+                        <p>MTConnect</p>
+                    </div>
+                    <div class="pipeline-box">
+                        <div class="pipeline-icon">⚙️</div>
+                        <h3>FANUC</h3>
+                        <p>OPC UA</p>
+                    </div>
+                    <div class="pipeline-box">
+                        <div class="pipeline-icon">🏭</div>
+                        <h3>Mazak</h3>
+                        <p>Modbus TCP</p>
+                    </div>
+                    <div class="pipeline-box">
+                        <div class="pipeline-icon">📡</div>
+                        <h3>Legacy Stroji</h3>
+                        <p>Senzorji + RPi</p>
+                    </div>
                 </div>
 
-                <div class="solution">
-                    <h4>Rešitev</h4>
-                    <ul>
-                        <li>Povezava vseh 6 strojev (MTConnect)</li>
-                        <li>2 starejša stroja → vibracijski senzorji + Raspberry Pi</li>
-                        <li>Real-time dashboard za vodstvo (Grafana)</li>
-                        <li>ML model za napoved okvar</li>
-                        <li>Analiza stroškov po izdelku (material, čas, orodja)</li>
-                        <li>Avtomatsko opozorilo za naročanje materiala</li>
-                    </ul>
+                <div class="arrow-down">↓</div>
+
+                <!-- Layer 2: Message Queue -->
+                <div class="pipeline-row">
+                    <div class="pipeline-box" style="max-width: 400px;">
+                        <div class="pipeline-icon">📬</div>
+                        <h3>MQTT / Kafka</h3>
+                        <p>Streaming podatkov - zanesljiva dostava, replay, high throughput</p>
+                    </div>
                 </div>
 
-                <div class="results">
-                    <h4>Rezultati po 12 mesecih</h4>
-                    <ul>
-                        <li>OEE: 68% → 82% (+14 točk)</li>
-                        <li>Nenačrtovani zastoji: 12 dni/leto → 3 dni/leto</li>
-                        <li>Identificirani 3 nedobičkonosni izdelki → renegotiacija cen (+22k€/leto)</li>
-                        <li>Zaloge materiala: -35k€ (sproščen kapital)</li>
-                        <li>Čas za planiranje: 5h/teden → 1h/teden</li>
-                        <li><strong>Skupni učinek: 125k€/leto | Investicija: 7.5k€ + 500€/mes</strong></li>
-                    </ul>
+                <div class="arrow-down">↓</div>
+
+                <!-- Layer 3: Processing -->
+                <div class="pipeline-row">
+                    <div class="pipeline-box">
+                        <div class="pipeline-icon">⚡</div>
+                        <h3>Stream Processing</h3>
+                        <p>Python / Node.js</p>
+                    </div>
+                    <div class="pipeline-box">
+                        <div class="pipeline-icon">🔍</div>
+                        <h3>Data Validation</h3>
+                        <p>Cleanup + Transform</p>
+                    </div>
+                    <div class="pipeline-box">
+                        <div class="pipeline-icon">🧮</div>
+                        <h3>Agregacije</h3>
+                        <p>OEE, avg, min/max</p>
+                    </div>
                 </div>
+
+                <div class="arrow-down">↓</div>
+
+                <!-- Layer 4: Storage & Viz -->
+                <div class="pipeline-row">
+                    <div class="pipeline-box">
+                        <div class="pipeline-icon">🗄️</div>
+                        <h3>TimescaleDB</h3>
+                        <p>Time-series optimized</p>
+                    </div>
+                    <div class="pipeline-box">
+                        <div class="pipeline-icon">📊</div>
+                        <h3>Grafana</h3>
+                        <p>Real-time dashboards</p>
+                    </div>
+                    <div class="pipeline-box">
+                        <div class="pipeline-icon">🔔</div>
+                        <h3>Alerting</h3>
+                        <p>Slack, SMS, Email</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pipeline-note">
+                <h4>🚀 POC Version</h4>
+                <p>Ta demo uporablja Python simulator namesto pravih strojev in simplificira message queue layer. V produkciji bi implementirali polno pipeline z MQTT broker-jem (Mosquitto/HiveMQ) ali Apache Kafka za večje volume.</p>
             </div>
         </div>
     </section>
 
-    <!-- Contact -->
-    <section class="contact">
+    <!-- Tech Stack -->
+    <section class="tech-stack">
         <div class="container">
-            <h2>Kontakt</h2>
-            <p>Zanima vas kako bi to delovalo pri vas? Pošljite email.</p>
-            <div class="contact-info">
-                <div class="contact-item">
-                    <a href="mailto:deniskerec1994@gmail.com">deniskerec1994@gmail.com</a>
+            <h2 class="section-title">Technologies</h2>
+            <p class="section-subtitle">Open-source stack</p>
+
+            <div class="tech-grid">
+                <a href="https://mqtt.org/" target="_blank" class="tech-card">
+                    <div class="tech-logo">📡</div>
+                    <h3>MQTT</h3>
+                </a>
+
+                <a href="https://kafka.apache.org/" target="_blank" class="tech-card">
+                    <div class="tech-logo">🌊</div>
+                    <h3>Apache Kafka</h3>
+                </a>
+
+                <a href="https://www.timescale.com/" target="_blank" class="tech-card">
+                    <div class="tech-logo">⏱️</div>
+                    <h3>TimescaleDB</h3>
+                </a>
+
+                <a href="https://www.influxdata.com/" target="_blank" class="tech-card">
+                    <div class="tech-logo">📈</div>
+                    <h3>InfluxDB</h3>
+                </a>
+
+                <a href="https://grafana.com/" target="_blank" class="tech-card">
+                    <div class="tech-logo">📊</div>
+                    <h3>Grafana</h3>
+                </a>
+
+                <a href="https://www.python.org/" target="_blank" class="tech-card">
+                    <div class="tech-logo">🐍</div>
+                    <h3>Python</h3>
+                </a>
+
+                <a href="https://opcfoundation.org/" target="_blank" class="tech-card">
+                    <div class="tech-logo">⚙️</div>
+                    <h3>OPC UA</h3>
+                </a>
+
+                <a href="https://www.mtconnect.org/" target="_blank" class="tech-card">
+                    <div class="tech-logo">🔗</div>
+                    <h3>MTConnect</h3>
+                </a>
+
+                <a href="https://www.docker.com/" target="_blank" class="tech-card">
+                    <div class="tech-logo">🐳</div>
+                    <h3>Docker</h3>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Grafana Examples -->
+    <section class="grafana-examples">
+        <div class="container">
+            <h2 class="section-title">Grafana Dashboard Primeri</h2>
+            <p class="section-subtitle">Real-world industrial IoT vizualizacije</p>
+
+            <div class="example-grid">
+                <div class="example-card">
+                    <div class="example-image">
+                        <div class="example-image-icon">🏭</div>
+                        <strong>Production Overview Dashboard</strong>
+                        <p style="font-size: 0.9em; margin-top: 10px; color: #8b949e;">OEE tracking, machine status, uptime %, parts produced</p>
+                    </div>
+                    <div class="example-info">
+                        <h3>Manufacturing KPIs</h3>
+                        <p>Real-time pregled vseh strojev. Status (AUTOMATIC, IDLE, FAULT), uptime %, trenutna hitrost, temperatura, skupna proizvodnja.</p>
+                        <a href="https://grafana.com/blog/2025/01/27/industrial-iot-visualization-how-grafana-powers-industrial-automation-and-iiot/" class="example-link" target="_blank">
+                            Več o IIoT Grafana uporabi →
+                        </a>
+                    </div>
                 </div>
-                <div class="contact-item">
-                    <a href="https://linkedin.com/in/deniskerec" target="_blank">LinkedIn</a>
+
+                <div class="example-card">
+                    <div class="example-image">
+                        <div class="example-image-icon">🔧</div>
+                        <strong>Predictive Maintenance</strong>
+                        <p style="font-size: 0.9em; margin-top: 10px; color: #8b949e;">Vibrations, temperature trends, bearing wear, tool life</p>
+                    </div>
+                    <div class="example-info">
+                        <h3>Machine Health Monitoring</h3>
+                        <p>Spremljanje vibracij (X/Y/Z axis), temperatur, obrabe ležajev. ML napoved kdaj je potrebno vzdrževanje - zmanjšanje nenačrtovanih zastojev.</p>
+                        <a href="https://grafana.com/blog/2024/07/01/industrial-iot-visualization-why-united-manufacturing-hub-chose-grafana-to-power-its-iiot-platform/" class="example-link" target="_blank">
+                            United Manufacturing Hub case study →
+                        </a>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <div class="example-image">
+                        <div class="example-image-icon">📈</div>
+                        <strong>Shift Performance Analysis</strong>
+                        <p style="font-size: 0.9em; margin-top: 10px; color: #8b949e;">Day/evening/night comparison, hourly production, bottlenecks</p>
+                    </div>
+                    <div class="example-info">
+                        <h3>Production Analytics</h3>
+                        <p>Primerjava izmene (jutro 6-14h, popoldne 14-22h). Dnevna vs nočna proizvodnja. Identificiranje bottleneckov in optimizacija schedule-a.</p>
+                        <a href="https://play.grafana.org" class="example-link" target="_blank">
+                            Grafana Live Demo →
+                        </a>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <div class="example-image">
+                        <div class="example-image-icon">💰</div>
+                        <strong>Cost & Quality Dashboard</strong>
+                        <p style="font-size: 0.9em; margin-top: 10px; color: #8b949e;">Scrap rate, tool costs, energy consumption per part</p>
+                    </div>
+                    <div class="example-info">
+                        <h3>Financial Analytics</h3>
+                        <p>Analiza stroškov po stroju in izdelku. Material usage, tool wear costs, energy consumption. Scrap rate tracking - identificiranje nedobičkonosnih izdelkov.</p>
+                        <a href="https://grafana.com/grafana/dashboards/" class="example-link" target="_blank">
+                            Browse community dashboards →
+                        </a>
+                    </div>
                 </div>
             </div>
-            <a href="/projects" class="cta-button">Ogled Demo Projektov →</a>
+
+            <div style="text-align: center; margin-top: 50px; padding: 25px; background: rgba(88, 166, 255, 0.05); border: 1px solid rgba(88, 166, 255, 0.2); border-radius: 8px;">
+                <p style="color: #8b949e; font-size: 1.1em; margin-bottom: 15px;">
+                    💡 <strong style="color: #f0f6fc;">Screenshot Instructions:</strong>
+                </p>
+                <p style="color: #8b949e; font-size: 0.95em;">
+                    Za dodajanje screenshotov v ta page: kreiraj dashboards v Grafani → Share → Direct link rendered image → shrani v <code style="background: #0d1117; padding: 2px 6px; border-radius: 4px;">/docs/screenshots/</code> → update HTML src na prave paths.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="container">
+            <h2 class="section-title">POC Demonstration</h2>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Simulirani CNC stroji</div>
+                </div>
+
+                <div class="stat-item">
+                    <div class="stat-number">130k+</div>
+                    <div class="stat-label">Time-series records</div>
+                </div>
+
+                <div class="stat-item">
+                    <div class="stat-number">30</div>
+                    <div class="stat-label">Dni zgodovinskih podatkov</div>
+                </div>
+
+                <div class="stat-item">
+                    <div class="stat-number">1s</div>
+                    <div class="stat-label">Data collection interval</div>
+                </div>
+
+                <div class="stat-item">
+                    <div class="stat-number">15min</div>
+                    <div class="stat-label">Fast-mode historical generation</div>
+                </div>
+            </div>
         </div>
     </section>
 
     <footer>
         <div class="container">
-            <p>© 2025 Data Solutions</p>
+            <p>© 2025 Denis Kerec | <a href="mailto:deniskerec1994@gmail.com">deniskerec1994@gmail.com</a> | <a href="https://linkedin.com/in/deniskerec" target="_blank">LinkedIn</a></p>
         </div>
     </footer>
+
+    <script>
+        // Grafana Dashboard Screenshots
+        const dashboardImages = [
+            {
+                src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600"><rect width="1200" height="600" fill="%231a1a1a"/><text x="50%" y="50%" text-anchor="middle" fill="%2358a6ff" font-size="24" font-family="Arial">Production Overview Dashboard</text></svg>',
+                caption: 'Production Overview - Machine Status, OEE, Uptime %'
+            },
+            {
+                src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600"><rect width="1200" height="600" fill="%231a1a1a"/><text x="50%" y="50%" text-anchor="middle" fill="%2358a6ff" font-size="24" font-family="Arial">Machine Health Dashboard</text></svg>',
+                caption: 'Machine Health - Temperature, Vibrations, Predictive Maintenance'
+            },
+            {
+                src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600"><rect width="1200" height="600" fill="%231a1a1a"/><text x="50%" y="50%" text-anchor="middle" fill="%2358a6ff" font-size="24" font-family="Arial">Shift Performance Dashboard</text></svg>',
+                caption: 'Shift Performance - Day/Evening/Night Comparison'
+            },
+            {
+                src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600"><rect width="1200" height="600" fill="%231a1a1a"/><text x="50%" y="50%" text-anchor="middle" fill="%2358a6ff" font-size="24" font-family="Arial">Cost Analysis Dashboard</text></svg>',
+                caption: 'Cost Analysis - Per Machine, Tool Wear, Scrap Rate'
+            }
+        ];
+
+        let currentImageIndex = 0;
+
+        function openLightbox(index) {
+            currentImageIndex = index;
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            const caption = document.getElementById('lightbox-caption');
+            
+            img.src = dashboardImages[currentImageIndex].src;
+            caption.textContent = dashboardImages[currentImageIndex].caption;
+            
+            lightbox.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function changeImage(direction) {
+            currentImageIndex += direction;
+            
+            if (currentImageIndex >= dashboardImages.length) {
+                currentImageIndex = 0;
+            } else if (currentImageIndex < 0) {
+                currentImageIndex = dashboardImages.length - 1;
+            }
+            
+            const img = document.getElementById('lightbox-img');
+            const caption = document.getElementById('lightbox-caption');
+            
+            img.src = dashboardImages[currentImageIndex].src;
+            caption.textContent = dashboardImages[currentImageIndex].caption;
+        }
+
+        // Close lightbox on Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+
+        // Close lightbox when clicking outside image
+        document.getElementById('lightbox').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeLightbox();
+            }
+        });
+
+        // Arrow key navigation
+        document.addEventListener('keydown', function(event) {
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox.style.display === 'block') {
+                if (event.key === 'ArrowLeft') {
+                    changeImage(-1);
+                } else if (event.key === 'ArrowRight') {
+                    changeImage(1);
+                }
+            }
+        });
+    </script>
 </body>
 </html>
